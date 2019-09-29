@@ -14,8 +14,8 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
 
+            llbloginfail.Visible = false;
 
         }
 
@@ -28,54 +28,92 @@ namespace WebApplication1
 
            
                 Session["logvalue1"] = logvalue1;
-                Session["username"] = username;
+               Session["username"] = username;
                 Session["password"] = password;
 
-                Response.Redirect("HosStuview.aspx");
-            
-
-            //string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-
-            //using (SqlConnection con = new SqlConnection(cs)) {
-            //    con.Open();
-
-            //    int logvalue = Convert.ToInt32( ddlLogType.SelectedValue ) ;
-
-            //    if (logvalue == 1111)
-            //    {
-            //        SqlCommand cmd1 = new SqlCommand("getStudentetailsbyloginvalue", con);
-            //        cmd1.CommandType = CommandType.StoredProcedure;
-            //        cmd1.Parameters.Add("@loginvalue", SqlDbType.Int).Value = logvalue;
-            //        cmd1.Parameters.Add("@uname", SqlDbType.VarChar).Value = txtUName.Text;
-            //        cmd1.Parameters.Add("@pass", SqlDbType.VarChar).Value = txtPwd.Text;
-            //        SqlDataAdapter sda = new SqlDataAdapter(cmd1);
-
-            //        DataSet ds = new DataSet();
-
-            //        sda.Fill(ds);
-            //        GVhostellogin.DataSource = ds;
-            //        GVhostellogin.DataBind();
-            //    }
-            //    if (logvalue == 2222)
-            //    {
-            //        SqlCommand cmd2 = new SqlCommand("gethosteldetailsbystudentloginvalue ", con);
-            //        cmd2.CommandType = CommandType.StoredProcedure;
-            //        cmd2.Parameters.Add("@loginvalue", SqlDbType.Int).Value = logvalue;
-            //        cmd2.Parameters.Add("@uname", SqlDbType.VarChar).Value = txtUName.Text;
-            //        cmd2.Parameters.Add("@pass", SqlDbType.VarChar).Value = txtPwd.Text;
-
-            //        SqlDataAdapter sda2 = new SqlDataAdapter(cmd2);
-
-            //        DataSet ds2 = new DataSet();
-            //        sda2.Fill(ds2);
-            //        GVstudentlogin.DataSource = ds2;
-            //        GVstudentlogin.DataBind();
-            //    }
-
-               
+              //  Response.Redirect("HosStuview.aspx");
 
 
-            
+           //  getting data from hostelregistration.aspx,cs
+           
+            string HSusername = Session["username"].ToString();
+           string HSpassword = Session["password"].ToString();
+
+            string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                con.Open();
+
+                int logvalue = logvalue1;
+
+
+                if (logvalue == 1111)
+                {
+                    SqlCommand cmd1 = new SqlCommand("getStudentetailsbyloginvalue", con);
+                    cmd1.CommandType = CommandType.StoredProcedure;
+                    cmd1.Parameters.Add("@loginvalue", SqlDbType.Int).Value = logvalue;
+                    cmd1.Parameters.Add("@uname", SqlDbType.VarChar).Value = HSusername;
+                    cmd1.Parameters.Add("@pass", SqlDbType.VarChar).Value = HSpassword;
+                   
+                    
+                    if (cmd1.ExecuteScalar() == null)
+                    {
+                        Response.Write("<script> alert('login failed , please enter correct USERNAME and PASSWORD')</script>");
+
+                        llbloginfail.Visible = true;
+
+                        //  Response.Redirect("hostelRegistration.aspx");
+                    }
+                    else
+                    {
+                        SqlDataAdapter sda = new SqlDataAdapter(cmd1);
+
+                        DataSet ds = new DataSet();
+                        sda.Fill(ds);
+                        Session["GVhostellogin_ds"] = ds;
+                        Response.Redirect("HosStuview.aspx");
+                    }
+                }
+                if (logvalue == 2222)
+                {
+                    SqlCommand cmd2 = new SqlCommand("gethosteldetailsbystudentloginvalue ", con);
+                    cmd2.CommandType = CommandType.StoredProcedure;
+                    cmd2.Parameters.Add("@loginvalue", SqlDbType.Int).Value = logvalue;
+                    cmd2.Parameters.Add("@uname", SqlDbType.VarChar).Value = HSusername;
+                    cmd2.Parameters.Add("@pass", SqlDbType.VarChar).Value = HSpassword;
+
+                   
+                    
+
+                    if (cmd2.ExecuteScalar() == null)
+                    {
+                        Response.Write("<script> alert('login failed , please enter correct USERNAME and PASSWORD')</script>");
+
+                        llbloginfail.Visible = true;
+
+                        //  Response.Redirect("hostelRegistration.aspx");
+                    }
+                    else
+                    {
+
+                        SqlDataAdapter sda2 = new SqlDataAdapter(cmd2);
+
+                        DataSet ds2 = new DataSet();
+                        sda2.Fill(ds2);
+                        Session["GVstudentlogin_ds"] = ds2;
+
+                        Response.Redirect("HosStuview.aspx");
+                    }
+                }
+
+
+
+            }
+
+
+
+
 
         }
     }

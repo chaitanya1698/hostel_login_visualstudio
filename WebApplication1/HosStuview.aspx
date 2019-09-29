@@ -10,6 +10,9 @@
     <form id="form1" runat="server">
         <div>
 
+           <h1> <asp:Label ID="lblusername" runat="server" Text="Label"></asp:Label></h1>
+
+
              <asp:GridView ID="GVhostellogin" runat="server" BackColor="#DEBA84" BorderColor="#DEBA84" BorderStyle="None" BorderWidth="1px" CellPadding="3" CellSpacing="2">
                  <FooterStyle BackColor="#F7DFB5" ForeColor="#8C4510" />
                  <HeaderStyle BackColor="#A55129" Font-Bold="True" ForeColor="White" />

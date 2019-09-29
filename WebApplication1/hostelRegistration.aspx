@@ -54,6 +54,10 @@
 
                   <asp:ValidationSummary ID="ValidationSummary1" ForeColor="Red" runat="server" />
 
+                   <br />
+                   <br />
+
+                  <asp:Label ID="llbloginfail" runat="server" Text="loging credintails are incorrect" ForeColor="Red" ></asp:Label>
             
            </fieldset>
         </div>
