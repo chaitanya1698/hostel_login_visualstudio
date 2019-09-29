@@ -103,6 +103,15 @@ namespace WebApplication1 {
         protected global::System.Web.UI.WebControls.DropDownList ddlLogType;
         
         /// <summary>
+        /// RFVddlLogType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVddlLogType;
+        
+        /// <summary>
         /// SqlDataSourceLoginType control.
         /// </summary>
         /// <remarks>

@@ -20,11 +20,10 @@ namespace WebApplication1
         {
 
             // getting data from hostelregistration.aspx,cs
-
             int log = Int32.Parse(Session["logvalue1"].ToString());
             string HSusername = Session["username"].ToString();
             string HSpassword = Session["password"].ToString();
-
+           
             string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
 
             using (SqlConnection con = new SqlConnection(cs))
@@ -44,10 +43,19 @@ namespace WebApplication1
                     SqlDataAdapter sda = new SqlDataAdapter(cmd1);
 
                     DataSet ds = new DataSet();
+                    if (cmd1.ExecuteScalar() == null)
+                    {
+                        Response.Write("<script> alert('login failed , please enter correct USERNAME and PASSWORD')</script>");
 
-                    sda.Fill(ds);
-                    GVhostellogin.DataSource = ds;
-                    GVhostellogin.DataBind();
+                      //  Response.Redirect("hostelRegistration.aspx");
+                    }
+                    else
+                    {
+
+                        sda.Fill(ds);
+                        GVhostellogin.DataSource = ds;
+                        GVhostellogin.DataBind();
+                    }
                 }
                 if (logvalue == 2222)
                 {
@@ -60,9 +68,19 @@ namespace WebApplication1
                     SqlDataAdapter sda2 = new SqlDataAdapter(cmd2);
 
                     DataSet ds2 = new DataSet();
-                    sda2.Fill(ds2);
-                    GVstudentlogin.DataSource = ds2;
-                    GVstudentlogin.DataBind();
+
+                    if (cmd2.ExecuteScalar() == null)
+                    {
+                        Response.Write("<script> alert('login failed , please enter correct USERNAME and PASSWORD')</script>");
+
+                        //  Response.Redirect("hostelRegistration.aspx");
+                    }
+                    else
+                    {
+                        sda2.Fill(ds2);
+                        GVstudentlogin.DataSource = ds2;
+                        GVstudentlogin.DataBind();
+                    }
                 }
 
 
